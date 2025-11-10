@@ -34,13 +34,13 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 animate-fade-in">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mb-4">
-              <span className="text-2xl font-bold text-white">💪</span>
+              <span className="text-2xl font-bold text-white">🩺</span>
             </div>
             <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-              HealthCalc
+              Health App
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Seu assistente de saúde pessoal
+              Sua saúde em primeiro lugar
             </p>
           </div>
 
@@ -95,19 +95,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
-              <strong>Credenciais de teste:</strong>
-              <br />
-              Email: <span className="font-mono text-blue-600 dark:text-blue-400">teste@email.com</span>
-              <br />
-              Senha: <span className="font-mono text-blue-600 dark:text-blue-400">123456</span>
-            </p>
-          </div>
+          
         </div>
 
         <div className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
-          <p>Versão Beta - Sistema de Login Demonstrativo</p>
+          <p></p>
         </div>
       </div>
     </div>

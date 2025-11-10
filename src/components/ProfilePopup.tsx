@@ -20,8 +20,8 @@ export function ProfilePopup({ isOpen, onClose, onLogout }: ProfilePopupProps) {
                 <User className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-lg">Usuário</h3>
-                <p className="text-cyan-100 dark:text-blue-200 text-sm">usuario@email.com</p>
+                <h3 className="font-bold text-lg">Teste</h3>
+                <p className="text-cyan-100 dark:text-blue-200 text-sm">teste@email.com</p>
               </div>
             </div>
             <button
