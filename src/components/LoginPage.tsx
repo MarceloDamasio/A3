@@ -27,13 +27,13 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
     setIsLoading(false);
   };
-
+// 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 animate-fade-in">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-200 to-cyan-300 dark:from-blue-800 dark:to-blue-900 rounded-full mb-4">
               <span className="text-2xl font-bold text-white">🩺</span>
             </div>
             <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
@@ -89,8 +89,8 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:scale-100"
-            >
+              className="w-full bg-gradient-to-r from-cyan-200 to-cyan-300 dark:from-blue-800 dark:to-blue-900 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:scale-100"
+            > 
               {isLoading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
