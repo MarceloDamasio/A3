@@ -103,7 +103,7 @@ export function NutritionPage({ currentIMC }: NutritionPageProps) {
         </div>
       </div>
 
-      {/* Aviso Médico */}
+      {/* Aviso Médico*/}
       <div className="bg-cyan-50 dark:bg-blue-900 border border-cyan-200 dark:border-blue-700 p-6 rounded-2xl">
         <div className="flex items-center mb-3">
           <AlertTriangle className="w-6 h-6 text-cyan-600 dark:text-blue-400 mr-3" />
