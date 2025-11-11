@@ -56,7 +56,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="teste@email.com"
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-200 to-cyan-300 dark:focus:ring-blue-800 to ring-blue-900 dark:bg-gray-700 dark:text-white transition-colors"
                   disabled={isLoading}
                 />
               </div>
@@ -73,7 +73,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Digite sua senha"
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-200 to-cyan-300 dark:focus:ring-blue-800 to ring-blue-900 dark:bg-gray-700 dark:bg-gray-700 dark:text-white transition-colors"
                   disabled={isLoading}
                 />
               </div>
