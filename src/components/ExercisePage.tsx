@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IMCResult } from '../types/imc';
 import { getExerciseRecommendation } from '../utils/exerciseRecommendations';
 import { Target, Heart, Dumbbell, Zap, Clock, Calendar, AlertTriangle } from 'lucide-react';
+import { EditableExerciseSection } from './EditableExerciseSection';
 
 interface ExercisePageProps {
   currentIMC: IMCResult | null;
 }
 
 export function ExercisePage({ currentIMC }: ExercisePageProps) {
+  const [exercises, setExercises] = useState(() => {
+    if (!currentIMC) return { cardio: [], strength: [], flexibility: [] };
+    const rec = getExerciseRecommendation(currentIMC.value);
+    return {
+      cardio: [...rec.exercises.cardio],
+      strength: [...rec.exercises.strength],
+      flexibility: [...rec.exercises.flexibility],
+    };
+  });
+
   if (!currentIMC) {
     return (
       <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 text-center">
@@ -74,52 +85,34 @@ export function ExercisePage({ currentIMC }: ExercisePageProps) {
       </div>
 
       {/* Exercícios Cardiovasculares */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center mb-4">
-          <Heart className="w-6 h-6 text-red-500 mr-3" />
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">Exercícios Cardiovasculares</h3>
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {recommendation.exercises.cardio.map((exercise, index) => (
-            <div key={index} className="flex items-center p-3 bg-red-50 dark:bg-red-900 rounded-lg">
-              <div className="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
-              <span className="text-gray-700 dark:text-gray-300 text-sm">{exercise}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <EditableExerciseSection
+        title="Exercícios Cardiovasculares"
+        icon={<Heart className="w-6 h-6 text-red-500" />}
+        exercises={exercises.cardio}
+        onUpdate={(updated) => setExercises({ ...exercises, cardio: updated })}
+        bgColor="bg-red-50 dark:bg-red-900"
+        dotColor="bg-red-500"
+      />
 
       {/* Exercícios de Força */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center mb-4">
-          <Dumbbell className="w-6 h-6 text-blue-500 mr-3" />
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">Exercícios de Força</h3>
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {recommendation.exercises.strength.map((exercise, index) => (
-            <div key={index} className="flex items-center p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-              <span className="text-gray-700 dark:text-gray-300 text-sm">{exercise}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <EditableExerciseSection
+        title="Exercícios de Força"
+        icon={<Dumbbell className="w-6 h-6 text-blue-500" />}
+        exercises={exercises.strength}
+        onUpdate={(updated) => setExercises({ ...exercises, strength: updated })}
+        bgColor="bg-blue-50 dark:bg-blue-900"
+        dotColor="bg-blue-500"
+      />
 
       {/* Exercícios de Flexibilidade */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center mb-4">
-          <Zap className="w-6 h-6 text-purple-500 mr-3" />
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">Flexibilidade e Mobilidade</h3>
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {recommendation.exercises.flexibility.map((exercise, index) => (
-            <div key={index} className="flex items-center p-3 bg-purple-50 dark:bg-purple-900 rounded-lg">
-              <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-              <span className="text-gray-700 dark:text-gray-300 text-sm">{exercise}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <EditableExerciseSection
+        title="Flexibilidade e Mobilidade"
+        icon={<Zap className="w-6 h-6 text-purple-500" />}
+        exercises={exercises.flexibility}
+        onUpdate={(updated) => setExercises({ ...exercises, flexibility: updated })}
+        bgColor="bg-purple-50 dark:bg-purple-900"
+        dotColor="bg-purple-500"
+      />
 
       {/* Dicas Importantes */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
