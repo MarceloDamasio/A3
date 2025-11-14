@@ -1,0 +1,15 @@
+you guys need to do the readme
+
+anyway, besides running the backend in a sepate project (and the prosgre), you can all t he funtions from there usinmg the funtions inside utils/backend/fetch as long as you imported the file
+
+### import
+import { createUser, getUser } from '../utils/backend/fetch';
+
+### the functions to call 
+const health = await getHealth(); <-- test connection
+const create = await createUser({ name: 'Alex', weight: 72 });
+const user = await getUser(user.id);
+const updatedUser = await getUser(user.id);
+const WeightHistory = await getWeightHistory(userId)
+const HeightHistory = await getHeightHistory(userId)
+const CompleteHistory = await getCompleteHistory(userId)
