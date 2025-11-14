@@ -35,7 +35,7 @@ function AppContent() {
    const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    fetch("http://backend:3001/api/message")
+    fetch("http://backend:3000/api/message")
       .then(res => res.json())
       .then(data => setMsg(data.message))
       .catch(() => setMsg("Erro ao conectar com backend"));
