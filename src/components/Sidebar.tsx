@@ -1,9 +1,9 @@
 import React from 'react';
-import { Calculator, History, Apple, Dumbbell } from 'lucide-react';
+import { Calculator, History, Apple, Dumbbell, Calendar } from 'lucide-react';
 
 interface SidebarProps {
-  activePage: 'calculator' | 'nutrition' | 'exercises';
-  onPageChange: (page: 'calculator' | 'nutrition' | 'exercises') => void;
+  activePage: 'calculator' | 'nutrition' | 'exercises' | 'agenda';
+  onPageChange: (page: 'calculator' | 'nutrition' | 'exercises' | 'agenda') => void;
   historyCount: number;
 }
 
@@ -16,6 +16,8 @@ export function Sidebar({ activePage, onPageChange, historyCount }: SidebarProps
       </div>
       
       <nav className="mt-8">
+
+        {/* CALCULADORA */}
         <button
           onClick={() => onPageChange('calculator')}
           className={`w-full flex items-center px-6 py-4 text-left transition-all duration-200 ${
@@ -36,6 +38,7 @@ export function Sidebar({ activePage, onPageChange, historyCount }: SidebarProps
           )}
         </button>
 
+        {/* EXERCÍCIOS */}
         <button
           onClick={() => onPageChange('exercises')}
           className={`w-full flex items-center px-6 py-4 text-left transition-all duration-200 ${
@@ -51,6 +54,7 @@ export function Sidebar({ activePage, onPageChange, historyCount }: SidebarProps
           </div>
         </button>
 
+        {/* ALIMENTAÇÃO */}
         <button
           onClick={() => onPageChange('nutrition')}
           className={`w-full flex items-center px-6 py-4 text-left transition-all duration-200 ${
@@ -65,6 +69,23 @@ export function Sidebar({ activePage, onPageChange, historyCount }: SidebarProps
             <div className="text-xs text-gray-500 dark:text-gray-400">Dicas personalizadas</div>
           </div>
         </button>
+
+        {/* AGENDA — NOVO */}
+        <button
+          onClick={() => onPageChange('agenda')}
+          className={`w-full flex items-center px-6 py-4 text-left transition-all duration-200 ${
+            activePage === 'agenda'
+              ? 'bg-cyan-100 dark:bg-blue-900 text-cyan-800 dark:text-blue-200 border-r-4 border-cyan-500 dark:border-blue-400'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-cyan-600 dark:hover:text-blue-400'
+          }`}
+        >
+          <Calendar className="w-5 h-5 mr-3" />
+          <div className="flex-1">
+            <div className="font-semibold">Agenda</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Horários & Rotina</div>
+          </div>
+        </button>
+
       </nav>
 
       <div className="absolute bottom-6 left-6 right-6">

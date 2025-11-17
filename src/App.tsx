@@ -14,6 +14,9 @@ import { calculateIMC } from './utils/imcCalculator';
 import { IMCResult as IMCResultType, IMCHistoryEntry } from './types/imc';
 import { Activity, User } from 'lucide-react';
 
+// 👉 IMPORTAÇÃO DO WEEKLY KANBAN
+import { WeeklyKanban } from './components/WeeklyKanban';
+
 function App() {
   return (
     <ThemeProvider>
@@ -24,7 +27,10 @@ function App() {
 
 function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activePage, setActivePage] = useState<'calculator' | 'nutrition' | 'exercises'>('calculator');
+
+  // 👉 ADICIONADA A PÁGINA AGENDA
+  const [activePage, setActivePage] = useState<'calculator' | 'nutrition' | 'exercises' | 'agenda'>('calculator');
+
   const [activeTab, setActiveTab] = useState<'calculator' | 'history'>('calculator');
   const [weight, setWeight] = useState<string>('');
   const [height, setHeight] = useState<string>('');
@@ -32,7 +38,7 @@ function AppContent() {
   const [history, setHistory] = useState<IMCHistoryEntry[]>([]);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
 
-   const [msg, setMsg] = useState("");
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     fetch("http://backend:3000/api/message")
@@ -41,7 +47,7 @@ function AppContent() {
       .catch(() => setMsg("Erro ao conectar com backend"));
   }, []);
 
-  const isValid = weight.trim() !== '' && height.trim() !== '' && 
+  const isValid = weight.trim() !== '' && height.trim() !== '' &&
                   parseFloat(weight) > 0 && parseFloat(height) > 0;
 
   const handleCalculate = () => {
@@ -50,8 +56,7 @@ function AppContent() {
       const heightNum = parseFloat(height);
       const imcResult = calculateIMC(weightNum, heightNum);
       setResult(imcResult);
-      
-      // Adicionar ao histórico
+
       const historyEntry: IMCHistoryEntry = {
         id: Date.now().toString(),
         weight: weightNum,
@@ -59,7 +64,6 @@ function AppContent() {
         result: imcResult,
         date: new Date()
       };
-      
       setHistory(prev => [historyEntry, ...prev]);
     }
   };
@@ -70,13 +74,8 @@ function AppContent() {
     setResult(null);
   };
 
-  const handleClearHistory = () => {
-    setHistory([]);
-  };
-
-  const handleDeleteEntry = (id: string) => {
-    setHistory(prev => prev.filter(entry => entry.id !== id));
-  };
+  const handleClearHistory = () => setHistory([]);
+  const handleDeleteEntry = (id: string) => setHistory(prev => prev.filter(entry => entry.id !== id));
 
   const handleLogout = () => {
     setShowProfilePopup(false);
@@ -93,14 +92,17 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-cyan-100 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
-      <Sidebar 
+      
+      {/* SIDEBAR */}
+      <Sidebar
         activePage={activePage}
         onPageChange={setActivePage}
         historyCount={history.length}
       />
-      
+
       <div className="ml-64 min-h-screen">
-        {/* Header com perfil */}
+
+        {/* HEADER */}
         <div className="flex justify-end p-4">
           <ThemeToggle />
           <button
@@ -110,9 +112,17 @@ function AppContent() {
             <User className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           </button>
         </div>
-        
+
+        {/* CONTEÚDO PRINCIPAL */}
         <div className="container mx-auto px-8 py-8 max-w-6xl">
-          {activePage === 'calculator' ? (
+
+          {/* 👉 AGENDA (WEEKLY KANBAN) */}
+          {activePage === 'agenda' && (
+            <WeeklyKanban />
+          )}
+
+          {/* 👉 CALCULADORA */}
+          {activePage === 'calculator' && (
             <>
               <header className="text-center mb-8">
                 <div className="flex items-center justify-center mb-4">
@@ -123,8 +133,8 @@ function AppContent() {
                   Descubra seu Índice de Massa Corporal e veja sua classificação de forma visual e divertida!
                 </p>
               </header>
-              
-              <TabNavigation 
+
+              <TabNavigation
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
                 historyCount={history.length}
@@ -141,7 +151,7 @@ function AppContent() {
                       onCalculate={handleCalculate}
                       isValid={isValid}
                     />
-                    
+
                     {result && (
                       <button
                         onClick={handleReset}
@@ -151,20 +161,23 @@ function AppContent() {
                       </button>
                     )}
                   </div>
-                  
+
                   <div className="flex justify-center">
                     <IMCResult result={result} />
                   </div>
                 </div>
               ) : (
-                <IMCHistory 
+                <IMCHistory
                   history={history}
                   onClearHistory={handleClearHistory}
                   onDeleteEntry={handleDeleteEntry}
                 />
               )}
             </>
-          ) : activePage === 'nutrition' ? (
+          )}
+
+          {/* 👉 NUTRIÇÃO */}
+          {activePage === 'nutrition' && (
             <>
               <header className="text-center mb-8">
                 <div className="flex items-center justify-center mb-4">
@@ -175,10 +188,13 @@ function AppContent() {
                   Recomendações nutricionais baseadas no seu IMC atual para uma vida mais saudável!
                 </p>
               </header>
-              
+
               <NutritionPage currentIMC={result} />
             </>
-          ) : (
+          )}
+
+          {/* 👉 EXERCÍCIOS */}
+          {activePage === 'exercises' && (
             <>
               <header className="text-center mb-8">
                 <div className="flex items-center justify-center mb-4">
@@ -189,17 +205,15 @@ function AppContent() {
                   Plano de exercícios baseado no seu IMC atual para alcançar seus objetivos de saúde!
                 </p>
               </header>
-              
+
               <ExercisePage currentIMC={result} />
             </>
           )}
 
-          <footer className="mt-12 text-center text-gray-500 dark:text-gray-400 text-sm">
-            <p>* Esta calculadora é apenas para fins informativos. Consulte um profissional de saúde para orientações médicas.</p>
-          </footer>
         </div>
       </div>
 
+      {/* POPUP DE PERFIL */}
       <ProfilePopup
         isOpen={showProfilePopup}
         onClose={() => setShowProfilePopup(false)}
