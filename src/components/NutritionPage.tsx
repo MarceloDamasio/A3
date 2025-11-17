@@ -1,13 +1,24 @@
-import React from 'react';
-import { IMCResultType } from '../types/imc';
+import { useState } from 'react';
+import { IMCResult } from '../types/imc';
 import { getNutritionRecommendation } from '../utils/nutritionRecommendations';
 import { Target, CheckCircle, XCircle, Lightbulb, AlertTriangle } from 'lucide-react';
+import { EditableNutritionSection } from './EditableNutritionSection';
 
 interface NutritionPageProps {
-  currentIMC: IMCResultType | null;
+  currentIMC: IMCResult | null;
 }
 
 export function NutritionPage({ currentIMC }: NutritionPageProps) {
+  const [nutritions, setNutritions] = useState(() => {
+      if (!currentIMC) return { recommended: [], avoid: []};
+      const rec = getNutritionRecommendation(currentIMC.value);
+      return {
+        recommended: [...rec.foods.recommended],
+        avoid: [...rec.foods.avoid],
+        
+      };
+    });
+
   if (!currentIMC) {
     return (
       <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 text-center">
@@ -56,36 +67,24 @@ export function NutritionPage({ currentIMC }: NutritionPageProps) {
       </div>
 
       {/* Alimentos Recomendados */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center mb-4">
-          <CheckCircle className="w-6 h-6 text-green-500 mr-3" />
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">Alimentos Recomendados</h3>
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {recommendation.foods.recommended.map((food, index) => (
-            <div key={index} className="flex items-center p-3 bg-green-50 dark:bg-green-900 rounded-lg">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-              <span className="text-gray-700 dark:text-gray-300 text-sm">{food}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <EditableNutritionSection
+        title='Alimentos Recomendados'
+        icon={<CheckCircle className='w-6 h-6 text-green-500 mr-3'/>}
+        nutritions={nutritions.recommended}
+        onUpdate={(updated) => setNutritions({ ...nutritions, recommended: updated})}
+        bgColor="bg-green-50 dark:bg-green-900"
+        dotColor="bg-green-500"
+      />
 
       {/* Alimentos a Evitar */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center mb-4">
-          <XCircle className="w-6 h-6 text-red-500 mr-3" />
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">Alimentos a Evitar</h3>
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {recommendation.foods.avoid.map((food, index) => (
-            <div key={index} className="flex items-center p-3 bg-red-50 dark:bg-red-900 rounded-lg">
-              <div className="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
-              <span className="text-gray-700 dark:text-gray-300 text-sm">{food}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <EditableNutritionSection
+      title='Alimentos a evitar'
+      icon={<XCircle className='w-6 h-6 text-red-500 mr-3'/>}
+      nutritions={nutritions.avoid}
+      onUpdate={(updated) => setNutritions({ ...nutritions, avoid: updated})}
+      bgColor="bg-red-50 dark:bg-red-900"
+      dotColor="bg-red-500"
+      />
 
       {/* Dicas Importantes */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">

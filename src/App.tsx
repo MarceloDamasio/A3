@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ThemeToggle } from './components/ThemeToggle';
 import { Sidebar } from './components/Sidebar';
@@ -31,6 +31,15 @@ function AppContent() {
   const [result, setResult] = useState<IMCResultType | null>(null);
   const [history, setHistory] = useState<IMCHistoryEntry[]>([]);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
+
+   const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    fetch("http://backend:3000/api/message")
+      .then(res => res.json())
+      .then(data => setMsg(data.message))
+      .catch(() => setMsg("Erro ao conectar com backend"));
+  }, []);
 
   const isValid = weight.trim() !== '' && height.trim() !== '' && 
                   parseFloat(weight) > 0 && parseFloat(height) > 0;
